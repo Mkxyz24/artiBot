@@ -1,38 +1,41 @@
 import discord
-import config
-import readimg
+from discord.ext import commands
+import os
+import sys
+import random
+from dotenv import load_dotenv
 
-client = discord.Client()
+def main():
+    load_dotenv()
 
-@client.event
-async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
-    print(client.user.id)
+    BOT_TOKEN = os.getenv('BOT_TOKEN')
+    if BOT_TOKEN == None:
+        with open('./tokens/BOT_TOKEN.token','r') as token:
+            BOT_TOKEN = token.read()
 
-@client.event
-async def on_message(message):
+    intents = discord.Intents().all()
+    client = discord.Client(intents=intents)
+    bot = commands.Bot(command_prefix = commands.when_mentioned_or(">"),intents=intents)
+
+
+    @bot.event
+    async def on_ready():
+        print('Logged in as')
+        print(bot.user.name)
+        print(bot.user.id)
+        print('------')
+
+    for filename in os.listdir('./cogs'):
+        if filename.endswith('.py') and filename != '__init__.py':
+            bot.load_extension(f'cogs.{filename[:-3]}')
     
-    if message.author == client.user:
-        return
+    # @discord_common.on_ready_event_once(bot)
+    # async def init():
+    #     clist_api.cache()
+    #     asyncio.create_task(discord_common.presence(bot))
 
-    if message.content == '$rate':
-        await message.channel.send('Hello!')
+    # bot.add_listener(discord_common.bot_error_handler, name='on_command_error')
+    bot.run(BOT_TOKEN)
 
-    if "artiBot" in (user.name for user in message.mentions):
-        # print("stop disturbing me biatch")
-        # await message.channel.send('stop disturbing me ' + message.author.mention)
-        # print(message.attachments)
-        # for url in (attachment.url for attachment in message.attachments):
-        #     readimg.url_to_image(url)
-
-        for attachment in message.attachments:
-            #print(attachment.content_type)
-            if "image" in attachment.content_type:
-                #print("found image biatch")
-                print(attachment.url)
-                image = readimg.url_to_image(attachment.url)
-
-    # for user in message.mentions:
-    #     print(user.name)
-
-client.run(config.token)
+if __name__ == '__main__':
+    main()

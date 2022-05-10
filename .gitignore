@@ -131,3 +131,24 @@ dmypy.json
 
 # config
 config.py
+
+# Build files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Secret Directories and files
+token/
+*.token
+
+# Environments
+signora-env/
+.bat
+.exe
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
