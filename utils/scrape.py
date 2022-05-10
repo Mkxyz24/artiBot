@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
+from selenium.webdriver.chrome.options import Options
 import traceback
 import sys
 
@@ -13,7 +14,14 @@ import sys
 def get_courses():
     url = "https://webapp4.asu.edu/catalog/"
 
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))
+    #for local
+    #driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))
+
+    #for github actions
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(options=chrome_options)
+
     driver.get(url)
 
     data = []
