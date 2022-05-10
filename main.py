@@ -15,7 +15,7 @@ def main():
 
     intents = discord.Intents().all()
     client = discord.Client(intents=intents)
-    bot = commands.Bot(command_prefix = commands.when_mentioned_or(">"),intents=intents)
+    bot = commands.Bot(command_prefix = commands.when_mentioned_or("!"),intents=intents)
 
 
     @bot.event

@@ -9,62 +9,65 @@ from selenium.webdriver.chrome.service import Service
 import traceback
 import sys
 
-url = "https://webapp4.asu.edu/catalog/"
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))
-driver.get(url)
+def get_courses():
+    url = "https://webapp4.asu.edu/catalog/"
 
-data = []
-desiredCourses = ["CSE 511", "CSE 546", "CSE 551", "CSE 569", "CSE 571", "CSE 575", "CSE 576"]
-fallCourses = []
-try:
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "searchTypeAllClass"))
-    )
-    element.click()
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "subjectEntry"))
-    )
-    element.send_keys("CSE")
-    element.send_keys(Keys.RETURN)
-    
-    element = WebDriverWait(driver, 10).until(
-        EC.presence_of_element_located((By.ID, "Any_23_1"))
-    )
-    #3rd page button id Any_23_1
-    element.click()
-    #wait to load
-    element = WebDriverWait(driver, 10).until(
-        EC.staleness_of(element)
-    )   
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))
+    driver.get(url)
 
-    table = driver.find_element(By.ID,"CatalogList")
-    tbody = table.find_element(By.TAG_NAME,"tbody")
-    rows = tbody.find_elements(By.TAG_NAME,"tr")
-    for row in rows:
-        cols= row.find_elements(By.TAG_NAME,"td")
-        titleCol = cols[0]
-        availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
-        values = availableCol.find_elements(By.TAG_NAME, "span")
+    data = []
+    desiredCourses = ["CSE 511", "CSE 546", "CSE 551", "CSE 569", "CSE 571", "CSE 575", "CSE 576"]
+    fallCourses = []
+    try:
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "searchTypeAllClass"))
+        )
+        element.click()
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "subjectEntry"))
+        )
+        element.send_keys("CSE")
+        element.send_keys(Keys.RETURN)
+        
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.ID, "Any_23_1"))
+        )
+        #3rd page button id Any_23_1
+        element.click()
+        #wait to load
+        element = WebDriverWait(driver, 10).until(
+            EC.staleness_of(element)
+        )   
 
-        fallCourses.append(titleCol.text)
-        dic = {}
-        if titleCol.text in desiredCourses:
-            dic['title'] = titleCol.text
-            dic['available'] = int(values[0].text)
-            dic['total'] = int(values[2].text)
-            data.append(dic)
+        table = driver.find_element(By.ID,"CatalogList")
+        tbody = table.find_element(By.TAG_NAME,"tbody")
+        rows = tbody.find_elements(By.TAG_NAME,"tr")
+        for row in rows:
+            cols= row.find_elements(By.TAG_NAME,"td")
+            titleCol = cols[0]
+            availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
+            values = availableCol.find_elements(By.TAG_NAME, "span")
 
-except Exception as e:
-    print(traceback.format_exc())
-    # or
-    print(sys.exc_info()[2])
-    driver.quit()
-finally:
-    driver.quit()
-    #print(data)
-    for course in data:
-        print(course['available'])
+            fallCourses.append(titleCol.text)
+            dic = {}
+            if titleCol.text in desiredCourses:
+                dic['title'] = titleCol.text
+                dic['available'] = int(values[0].text)
+                dic['total'] = int(values[2].text)
+                data.append(dic)
+
+    except Exception as e:
+        print(traceback.format_exc())
+        # or
+        print(sys.exc_info()[2])
+        driver.quit()
+    finally:
+        driver.quit()
+        #print(data)
+        # for course in data:
+        #     print(course['available'])
+        return data
 
 
 
