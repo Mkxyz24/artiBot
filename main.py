@@ -4,6 +4,7 @@ import os
 import sys
 import random
 from dotenv import load_dotenv
+from utils import scrape
 
 def main():
     load_dotenv()
@@ -25,16 +26,36 @@ def main():
         print(bot.user.id)
         print('------')
 
+
+        '''
+        running the scraper on_ready
+        '''
+        text_channel_list=[]
+        id = None
+        ch_gen = bot.get_all_channels()
+        for channel in ch_gen:
+            if channel.name == "general":
+                id = channel.id
+                break
+        courses = scrape.get_courses()
+        #await ctx.send(f'{ctx.message.author.mention} Courses available:')
+        embed=discord.Embed(
+        title="Available Classes",
+            description="Here are the classes available from your desired list",
+            color=discord.Color.blue())
+        embed.set_author(name="Arti")
+        for course in courses:
+            embed.add_field(name="Title", value=course['title'], inline=True)
+            embed.add_field(name="Available seats", value=course['available'], inline=True)
+            embed.add_field(name="total", value=course['total'], inline=True)
+        embed.set_footer(text="class search: https://webapp4.asu.edu/catalog/")
+        channel = bot.get_channel(id)
+        await channel.send(embed=embed)
+        
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py') and filename != '__init__.py':
             bot.load_extension(f'cogs.{filename[:-3]}')
     
-    # @discord_common.on_ready_event_once(bot)
-    # async def init():
-    #     clist_api.cache()
-    #     asyncio.create_task(discord_common.presence(bot))
-
-    # bot.add_listener(discord_common.bot_error_handler, name='on_command_error')
     bot.run(BOT_TOKEN)
 
 if __name__ == '__main__':

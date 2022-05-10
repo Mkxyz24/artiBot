@@ -9,7 +9,7 @@ from utils import scrape
 import io
 from PIL import Image
 
-class Info(commands.Cog):
+class Noti(commands.Cog):
     def __init__(self,bot):
         self.bot = bot
 
@@ -32,4 +32,4 @@ class Info(commands.Cog):
         await ctx.send(embed=embed)
 
 def setup(bot):
-    bot.add_cog(Info(bot))
+    bot.add_cog(Noti(bot))
