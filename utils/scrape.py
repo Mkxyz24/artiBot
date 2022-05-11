@@ -54,7 +54,7 @@ def get_courses():
         for row in rows:
             cols= row.find_elements(By.TAG_NAME,"td")
             titleCol = cols[0]
-            nammeCol = cols[1]
+            nameCol = cols[1]
             name = nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
             availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
             values = availableCol.find_elements(By.TAG_NAME, "span")
