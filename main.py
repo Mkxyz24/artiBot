@@ -41,6 +41,7 @@ def main():
                 break
 
         #delete old messages
+        channel = bot.get_channel(id)
         now = datetime.utcnow()
         hours_20 = now - timedelta(hours = 2)
         #current_time = now.strftime("%H:%M:%S")
@@ -68,7 +69,6 @@ def main():
                 pages[int(i/5)].add_field(name="total", value=courses[i]['total'], inline=True)
                 pages[int(i/5)].add_field(name="\n\u200b", value="\n\u200b", inline=False)
 
-            channel = bot.get_channel(id)
             message = await channel.send(embed = pages[0])
             await message.add_reaction('⏮')
             await message.add_reaction('◀')
