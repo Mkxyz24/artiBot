@@ -66,7 +66,8 @@ def get_courses():
                 dic['name'] = name.text
                 dic['available'] = int(values[0].text)
                 dic['total'] = int(values[2].text)
-                data.append(dic)
+                if(dic['available'] > 0):
+                    data.append(dic)
 
     except Exception as e:
         print(traceback.format_exc())
