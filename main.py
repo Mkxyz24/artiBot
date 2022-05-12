@@ -88,7 +88,7 @@ def main():
                 await message.edit(embed = pages[i])
             
             try:
-                reaction, user = await bot.wait_for('reaction_add', timeout = 300.0)
+                reaction, user = await bot.wait_for('reaction_add', timeout = 3600.0)
                 await message.remove_reaction(reaction, user)
             except:
                 break

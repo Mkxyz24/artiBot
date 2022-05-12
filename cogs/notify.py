@@ -62,7 +62,7 @@ class Noti(commands.Cog):
                 await message.edit(embed = pages[i])
             
             try:
-                reaction, user = await self.bot.wait_for('reaction_add', timeout = 300.0, check = check)
+                reaction, user = await self.bot.wait_for('reaction_add', timeout = 3600.0, check = check)
                 await message.remove_reaction(reaction, user)
             except:
                 break
