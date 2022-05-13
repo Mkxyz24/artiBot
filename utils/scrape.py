@@ -1,4 +1,5 @@
 
+from ast import Try
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
@@ -7,7 +8,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from selenium.common.exceptions import TimeoutException
+from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import traceback
 import sys
 
@@ -53,19 +54,43 @@ def get_courses():
                 for row in rows:
                     cols= row.find_elements(By.TAG_NAME,"td")
                     titleCol = cols[0]
-                    nameCol = cols[1]
-                    name = nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
-                    availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
-                    values = availableCol.find_elements(By.TAG_NAME, "span")
+
 
                     fallCourses.append(titleCol.text)
                     dic = {}
                     if titleCol.text in desiredCourses:
-                        dic['title'] = titleCol.text
-                        dic['name'] = name.text
-                        dic['available'] = int(values[0].text)
-                        dic['total'] = int(values[2].text)
+                        nameCol = cols[1]
+                        name = nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
+                        
+                        #non reserved
+                        name.click()
+                        try:
+                            element = WebDriverWait(driver, 10).until(
+                                EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
+                            )     
+                            nr_text = element.text
+                            nr = None
+                            if nr_text!=None:
+                                nr_text = nr_text.replace('Non Reserved Available Seats: ','')
+                                #print(nr + " " + name.text)
+                                nr = int(nr_text)
+                            dic['available'] = nr
+
+                        except NoSuchElementException:
+                            print("cannot find non reserved table - no such element")
+                            pass
+                        except TimeoutException:
+                            print("cannot find non reserved table - timeout")
+                            pass
+                        #end of non-reserved
                         if(dic['available'] > 0):
+                            availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
+                            values = availableCol.find_elements(By.TAG_NAME, "span")
+                            dic['title'] = titleCol.text
+                            dic['name'] = name.text
+                            #dic['available'] = int(values[0].text)
+                            dic['total'] = int(values[2].text)
+
                             data.append(dic)
                 
                 #wait for next page button and click it
