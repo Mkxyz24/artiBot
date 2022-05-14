@@ -41,12 +41,12 @@ def main():
                 break
 
         #delete old messages
-        channel = bot.get_channel(id)
-        now = datetime.utcnow()
-        hours_20 = now - timedelta(hours = 2)
-        #current_time = now.strftime("%H:%M:%S")
-        async for message in channel.history(limit=200,before=hours_20):
-            await message.delete()
+        # channel = bot.get_channel(id)
+        # now = datetime.utcnow()
+        # hours_20 = now - timedelta(hours = 2)
+        # #current_time = now.strftime("%H:%M:%S")
+        # async for message in channel.history(limit=200,before=hours_20):
+        #     await message.delete()
 
         #send embed function
         courses = scrape.get_courses()
