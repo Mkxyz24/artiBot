@@ -41,6 +41,10 @@ jobs:
       - name: Run a multi-line script
         env: 
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          NUM_1: ${{ secrets.NUM_1}}
+          NUM_2: ${{ secrets.NUM_2}}
+          TWILIO_ACCOUNT_SID: ${{ secrets.TWILIO_ACCOUNT_SID}}
+          TWILIO_AUTH_TOKEN: ${{ secrets.TWILIO_AUTH_TOKEN}}
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
