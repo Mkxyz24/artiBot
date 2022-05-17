@@ -4,7 +4,7 @@ import os
 import sys
 import random
 from dotenv import load_dotenv
-from utils import scrape
+from utils import scrape,make_call
 from datetime import datetime, timedelta
 
 def main():
@@ -54,7 +54,9 @@ def main():
 
         no_of_courses = len(courses)
         pages = []
+        phone_nums = ['NUM_1']
         if(no_of_courses!=0):
+            make_call.make_call(phone_nums)
             for i in range(no_of_courses):
                 if(i%5==0):
                     page = discord.Embed(
@@ -106,22 +108,6 @@ def main():
             await message.clear_reactions()
 
 
-            # courses = scrape.get_courses()
-            # #await ctx.send(f'{ctx.message.author.mention} Courses available:')
-            # embed=discord.Embed(
-            # title="Available Classes",
-            #     description="Here are the classes available from your desired list",
-            #     color=discord.Color.blue())
-            # embed.set_author(name="Arti")
-            # for course in courses:
-            #     embed.add_field(name="Title", value=course['title'], inline=True)
-            #     embed.add_field(name="Name", value=course['name'], inline=True)
-            #     embed.add_field(name="Available seats", value=course['available'], inline=True)
-            #     embed.add_field(name="total", value=course['total'], inline=True)
-            #     embed.add_field(name="\n\u200b", value="\n\u200b", inline=False)
-            # embed.set_footer(text="class search: https://webapp4.asu.edu/catalog/")
-            # channel = bot.get_channel(id)
-            # await channel.send(embed=embed)
         
     for filename in os.listdir('./cogs'):
         if filename.endswith('.py') and filename != '__init__.py':

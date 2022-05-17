@@ -27,8 +27,8 @@ def get_courses():
     driver.get(url)
 
     data = []
-    desiredCourses = ["CSE 511", "CSE 512", "CSE 546", "CSE 551", "CSE 564", "CSE 569",
-                         "CSE 571", "CSE 572", "CSE 573" "CSE 575", "CSE 576",]
+    desiredCourses = ["CSE 511", "CSE 512", "CSE 546", "CSE 551", "CSE 564",
+                         "CSE 571"]
     fallCourses = []
     try:
         element = WebDriverWait(driver, 10).until(

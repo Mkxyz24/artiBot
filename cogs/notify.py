@@ -5,7 +5,7 @@ import sys
 import os
 from random import randint
 import json
-from utils import scrape
+from utils import scrape,make_call
 import io
 from PIL import Image
 
@@ -17,10 +17,12 @@ class Noti(commands.Cog):
     async def notify(self,ctx):
         courses = scrape.get_courses()
         #await ctx.send(f'{ctx.message.author.mention} Courses available:')
-
+  
         no_of_courses = len(courses)
         pages = []
+        phone_nums = ['NUM_1']
         if (no_of_courses!=0):
+            make_call.make_call(phone_nums)
             for i in range(no_of_courses):
                 if(i%5==0):
                     page = discord.Embed(
