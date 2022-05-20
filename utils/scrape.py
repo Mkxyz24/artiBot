@@ -27,7 +27,7 @@ def get_courses():
     driver.get(url)
 
     data = []
-    desiredCourses = ["CSE 511", "CSE 512", "CSE 535", "CSE 546", "CSE 551", "CSE 564",
+    desiredCourses = ["CSE 511", "CSE 512", "CSE 535", "CSE 546", "CSE 551", "CSE 552", "CSE 564",
                          "CSE 571", "CSE 573", "CSE 575", "CSE 576", "CSE 578", "CSE 579"]
     a_c = ["CSE 463", "CSE 511", "CSE 512", "CSE 535", "CSE 543", "CSE 546", "CSE 551", "CSE 573", "CSE 575",
                  "CSE 576", "CSE 578", "CSE 579"]
