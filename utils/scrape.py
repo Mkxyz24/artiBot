@@ -34,9 +34,10 @@ def get_courses():
     fallCourses = []
     try:
         element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "searchTypeAllClass"))
+            EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
         )
-        element.click()
+        #element.click()
+        driver.execute_script('arguments[0].click()', element)
         element = WebDriverWait(driver, 10).until(
             EC.presence_of_element_located((By.ID, "subjectEntry"))
         )
@@ -63,11 +64,16 @@ def get_courses():
                     dic = {}
                     if titleCol.text in desiredCourses:
                         nameCol = cols[1]
-                        name = nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
-                        
-                        #non reserved
-                        name.click()
+
                         try:
+                            name = WebDriverWait(nameCol, 10).until(
+                                EC.element_to_be_clickable((By.CLASS_NAME,"class-results-drawer"))
+                            )
+                            #nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
+                        
+                            #non reserved
+                            driver.execute_script('arguments[0].click()', name)
+                            #name.click()
                             element = WebDriverWait(driver, 10).until(
                                 EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
                             )     
@@ -98,10 +104,11 @@ def get_courses():
                 
                 #wait for next page button and click it
                 element = WebDriverWait(driver, 10).until(
-                    EC.presence_of_element_located((By.ID, "Any_24"))
+                    EC.element_to_be_clickable((By.ID, "Any_24"))
                 )
                 #next page button id Any_24
-                element.click()
+                driver.execute_script('arguments[0].click()', element)
+                #element.click()
                 #wait to load
                 element = WebDriverWait(driver, 10).until(
                     EC.staleness_of(element)
