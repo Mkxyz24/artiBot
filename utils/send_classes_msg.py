@@ -12,7 +12,7 @@ async def send_msg(bot, courses, ctx):
     if ctx == None:
         ch_gen = bot.get_all_channels()
         for channel in ch_gen:
-            if channel.name == "private":
+            if channel.name == "course-updates":
                 id = channel.id
                 break
         ctx = bot.get_channel(id)
