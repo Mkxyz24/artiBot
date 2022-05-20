@@ -25,7 +25,7 @@ async def send_msg(bot, courses, ctx):
     pages = []
     phone_nums = ['NUM_1']
     if(no_of_courses!=0):
-        #make_call.make_call(phone_nums)
+        make_call.make_call(phone_nums)
         for i in range(no_of_courses):
             if(i%5==0):
                 page = discord.Embed(
