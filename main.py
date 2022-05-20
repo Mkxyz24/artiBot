@@ -17,9 +17,9 @@ async def not_courses(bot,clientLoop):
  
         courses = scrape.get_courses()
 
-        send_fut = asyncio.run_coroutine_threadsafe(send_classes_msg.send_msg(bot,courses), clientLoop)
+        send_fut = asyncio.run_coroutine_threadsafe(send_classes_msg.send_msg(bot,courses,None), clientLoop)
         send_fut.result()
-        await asyncio.sleep(120)
+        await asyncio.sleep(90)
 
 
 def run_continuously(*params):

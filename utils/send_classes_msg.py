@@ -1,17 +1,24 @@
 from utils import make_call
 import discord
+import asyncio
 
 
-async def send_msg(bot, courses):
+async def send_msg(bot, courses, ctx):
 
     #get channel id
-    text_channel_list=[]
+
+    author = None
     id = None
-    ch_gen = bot.get_all_channels()
-    for channel in ch_gen:
-        if channel.name == "private":
-            id = channel.id
-            break
+    if ctx == None:
+        ch_gen = bot.get_all_channels()
+        for channel in ch_gen:
+            if channel.name == "private":
+                id = channel.id
+                break
+        ctx = bot.get_channel(id)
+    else:
+        author = ctx.author
+    
 
     #send embed
     no_of_courses = len(courses)
@@ -33,38 +40,49 @@ async def send_msg(bot, courses):
             pages[int(i/5)].add_field(name="total", value=courses[i]['total'], inline=True)
             pages[int(i/5)].add_field(name="\n\u200b", value="\n\u200b", inline=False)
 
-        message = await channel.send(embed = pages[0])
-        await message.add_reaction('⏮')
-        await message.add_reaction('◀')
-        await message.add_reaction('▶')
-        await message.add_reaction('⏭')
+        message = await ctx.send(embed = pages[0])
+        first_page_emoji = "\U000023EE"
+        await message.add_reaction(first_page_emoji)
+        previous_page_emoji = '\U000025C0'
+        await message.add_reaction(previous_page_emoji)
+        next_page_emoji = '\U000025B6'
+        await message.add_reaction(next_page_emoji)
+        last_page_emoji = '\U000023ED'
+        await message.add_reaction(last_page_emoji)
 
-        # def check(reaction, user):
-        #     return user == ctx.author
+        def check(reaction, user):
+            if(author!=None):
+                return user == ctx.author
+            return True
 
         i = 0
-        reaction = None
+        #reaction = None
 
         while True:
-            if str(reaction) == '⏮':
-                i = 0
-                await message.edit(embed = pages[i])
-            elif str(reaction) == '◀':
-                if i > 0:
-                    i -= 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '▶':
-                if i < int(no_of_courses/5):
-                    i += 1
-                    await message.edit(embed = pages[i])
-            elif str(reaction) == '⏭':
-                i = int(no_of_courses/5)
-                await message.edit(embed = pages[i])
             
             try:
-                reaction, user = await bot.wait_for('reaction_add', timeout = 60.0)
-                await message.remove_reaction(reaction, user)
-            except:
-                break
+                reaction, user = await bot.wait_for('reaction_add', timeout = 60.0, check = check)
+                if str(reaction) == r'\U000023EE':
+                    i = 0
+                    await message.edit(embed = pages[i])
 
-        await message.clear_reactions()
+                elif str(reaction) == r'\U000025C0':
+                    if i > 0:
+                        i -= 1
+                        await message.edit(embed = pages[i])
+                    
+                elif str(reaction) == r'\U000025B6':
+                    if i < int(no_of_courses/5):
+                        i += 1
+                        await message.edit(embed = pages[i])
+                  
+                elif str(reaction) == r'\U000023ED':
+                    i = int(no_of_courses/5)
+                    await message.edit(embed = pages[i])
+
+                if(bot.user.id != user.id):
+                    await message.remove_reaction(reaction, user)
+
+            except asyncio.TimeoutError:
+                await message.clear_reactions()
+                break
