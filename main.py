@@ -19,7 +19,7 @@ async def not_courses(bot,clientLoop):
 
         send_fut = asyncio.run_coroutine_threadsafe(send_classes_msg.send_msg(bot,courses,None), clientLoop)
         send_fut.result()
-        await asyncio.sleep(90)
+        await asyncio.sleep(1)
 
 
 def run_continuously(*params):
