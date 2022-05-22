@@ -31,7 +31,7 @@ def get_courses():
     fall22Courses = ['92030', '70517', '81285', '81289', '90104', '97669',
                      '96730', '76770', '98070', '75623', '83713', '92173', '96290', '78322',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
-                     '84856', '86209', '96727', '89746', '87271'  ]
+                     '84856', '86209', '96727', '89746', '87271']
     try:
         element = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
@@ -81,7 +81,7 @@ def get_courses():
                             driver.execute_script('arguments[0].click()', name)
                             #name.click()
                             try:
-                                element = WebDriverWait(driver, 5).until(
+                                element = WebDriverWait(driver, 3).until(
                                     EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
                                 )    
                             except TimeoutException:
@@ -114,7 +114,8 @@ def get_courses():
                             availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
                             values = availableCol.find_elements(By.TAG_NAME, "span")
                             dic['title'] = titleCol.text
-                            dic['name'] = name.text
+                            dic['name'] = nameCol.text
+                            dic['id'] = id
                             #dic['available'] = int(values[0].text)
                             dic['total'] = int(values[2].text)
 

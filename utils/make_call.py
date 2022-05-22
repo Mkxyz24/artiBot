@@ -10,17 +10,17 @@ def make_call(users, courses):
     ist_dt = utc_dt + timedelta(hours=5.5)
     current_time = ist_dt.strftime("%H:%M:%S")
 
-
-    a_c = ["CSE 463", "CSE 511", "CSE 512", "CSE 535", "CSE 543", "CSE 546",
-             "CSE 551", "CSE 573", "CSE 575", "CSE 576", "CSE 578", "CSE 579", "CSE 598"]
-    b_c = ["CSE 598", "CSE 576", "CSE 575", "CSE 572", "CSE 571", "CSE 569", "CSE 564", "CSE 551", "CSE 546", 
-            "CSE 539", "CSE 534", "CSE 512", "CSE 511", "CSE 509", "CSE 475", "CSE 472", "CSE 471", 
-            "CSE 445", "CSE 408"]
+    #desired specific list
+    desired_ab = ['92030', '70517', '81285', '81289', '90104', '97669',
+                     '96730', '76770', '98070', '75623', '83713', '92173', '96290', '78322',
+                     '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
+                     '84856', '86209', '96727', '89746', '87271']
     
     set_available = set([d['title'] for d in courses])
 
-    set_desired = set(b_c)
+    set_desired = set(desired_ab)
     open = set_available.intersection(set_desired)
+    
     load_dotenv()
     account_sid = os.getenv('TWILIO_ACCOUNT_SID')
     auth_token = os.getenv('TWILIO_AUTH_TOKEN')
