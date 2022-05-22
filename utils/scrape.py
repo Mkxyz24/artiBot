@@ -43,8 +43,15 @@ def get_courses():
         )
         element.send_keys("CSE")
         element.send_keys(Keys.RETURN)
+
+        element = WebDriverWait(driver, 10).until(
+            EC.presence_of_element_located((By.CSS_SELECTOR,".pagination"))
+        )
+
+        pages = driver.find_elements(By.CSS_SELECTOR,".change-page")
+        print(len(pages))
         
-        while(True):
+        for i in range(len(pages)):
             try:
                 #wait time for page to load
                 element = WebDriverWait(driver, 10).until(
@@ -103,21 +110,22 @@ def get_courses():
                             data.append(dic)
                 
                 #wait for next page button and click it
-                element = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.ID, "Any_24"))
-                )
-                #next page button id Any_24
-                driver.execute_script('arguments[0].click()', element)
+                if(i != (len(pages)-1)):   #if not last page
+                    element = WebDriverWait(driver, 10).until(
+                        EC.element_to_be_clickable((By.ID, "Any_24"))
+                    )
+                    #next page button id Any_24
+                    driver.execute_script('arguments[0].click()', element)
                 #element.click()
                 #wait to load
-                element = WebDriverWait(driver, 10).until(
-                    EC.staleness_of(element)
-                )   
+                    element = WebDriverWait(driver, 10).until(
+                        EC.staleness_of(element)
+                    )   
             
 
             except TimeoutException:
                 print('next page element not found')
-                break
+                #break
 
     except Exception as e:
         print(traceback.format_exc())
