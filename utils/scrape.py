@@ -27,10 +27,6 @@ def get_courses():
     driver.get(url)
 
     data = []
-    desiredCourses = ["CSE 408", "CSE 434", "CSE 445", "CSE 460", "CSE 471", "CSE 472", "CSE 475", "CSE 509",
-                         "CSE 511", "CSE 512", "CSE 534", "CSE 535", "CSE 539",
-                         "CSE 546", "CSE 551", "CSE 552", "CSE 564", "CSE 569", 
-                         "CSE 571", "CSE 572", "CSE 573", "CSE 575", "CSE 576", "CSE 578", "CSE 579"]
 
     fall22Courses = ['92030', '70517', '81285', '81289', '90104', '97669',
                      '96730', '76770', '98070', '75623', '83713', '92173', '96290', '78322',
