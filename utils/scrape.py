@@ -27,11 +27,15 @@ def get_courses():
     driver.get(url)
 
     data = []
-    desiredCourses = ["CSE 511", "CSE 512", "CSE 535", "CSE 546", "CSE 551", "CSE 564",
-                         "CSE 571", "CSE 573", "CSE 575", "CSE 576", "CSE 578", "CSE 579"]
-    a_c = ["CSE 463", "CSE 511", "CSE 512", "CSE 535", "CSE 543", "CSE 546", "CSE 551", "CSE 573", "CSE 575",
-                 "CSE 576", "CSE 578", "CSE 579"]
-    fallCourses = []
+    desiredCourses = ["CSE 408", "CSE 434", "CSE 445", "CSE 460", "CSE 471", "CSE 472", "CSE 475", "CSE 509",
+                         "CSE 511", "CSE 512", "CSE 534", "CSE 535", "CSE 539",
+                         "CSE 546", "CSE 551", "CSE 552", "CSE 564", "CSE 569", 
+                         "CSE 571", "CSE 572", "CSE 573", "CSE 575", "CSE 576", "CSE 578", "CSE 579"]
+
+    fall22Courses = ['92030', '70517', '81285', '81289', '90104', '97669',
+                     '96730', '76770', '98070', '75623', '83713', '92173', '96290', '78322',
+                     '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
+                     '84856', '86209', '96727', '89746', '87271'  ]
     try:
         element = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
@@ -44,17 +48,17 @@ def get_courses():
         element.send_keys("CSE")
         element.send_keys(Keys.RETURN)
 
-        element = WebDriverWait(driver, 10).until(
+        element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,".pagination"))
         )
 
         pages = driver.find_elements(By.CSS_SELECTOR,".change-page")
-        print(len(pages))
+        #print(len(pages))
         
         for i in range(len(pages)):
             try:
                 #wait time for page to load
-                element = WebDriverWait(driver, 10).until(
+                element = WebDriverWait(driver, 20).until(
                     EC.presence_of_element_located((By.ID, "Any_23"))
                 )
 
@@ -65,13 +69,12 @@ def get_courses():
                 for row in rows:
                     cols= row.find_elements(By.TAG_NAME,"td")
                     titleCol = cols[0]
-
-
-                    fallCourses.append(titleCol.text)
+                    courseId = cols[2]
                     dic = {}
-                    if titleCol.text in desiredCourses:
+                    id = courseId.text.replace(' ','')
+                    if id in fall22Courses:
                         nameCol = cols[1]
-
+                        
                         try:
                             name = WebDriverWait(nameCol, 10).until(
                                 EC.element_to_be_clickable((By.CLASS_NAME,"class-results-drawer"))
@@ -81,19 +84,31 @@ def get_courses():
                             #non reserved
                             driver.execute_script('arguments[0].click()', name)
                             #name.click()
-                            element = WebDriverWait(driver, 10).until(
-                                EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
-                            )     
-                            nr_text = element.text
-                            nr = None
-                            if nr_text!=None:
-                                nr_text = nr_text.replace('Non Reserved Available Seats: ','')
-                                #print(nr + " " + name.text)
-                                nr = int(nr_text)
-                            dic['available'] = nr
+                            try:
+                                element = WebDriverWait(driver, 5).until(
+                                    EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
+                                )    
+                            except TimeoutException:
+                                print("cannot find non reserved table - no such element")
+                                available = cols[10]
+                                open = available.find_element(By.TAG_NAME,"span")
+                                print(open.text)
+                                dic['available'] = int(open.text)
+                                #continue
+                            else:
+                                nr_text = element.text
+                                nr = None
+                                if nr_text!=None:
+                                    nr_text = nr_text.replace('Non Reserved Available Seats: ','')
+                                    #print(nr + " " + name.text)
+                                    nr = int(nr_text)
+                                    dic['available'] = nr
+                                else:
+                                    #dic["available"] = None
+                                    continue
 
                         except NoSuchElementException:
-                            print("cannot find non reserved table - no such element")
+                            print("cannot find class results drawer - timed out")
                             pass
                         except TimeoutException:
                             print("cannot find non reserved table - timeout")
