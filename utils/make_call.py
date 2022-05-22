@@ -18,7 +18,7 @@ def make_call(users):
         num = os.getenv(user)
         print(num)
         #ab all day calling
-        if user == 'NUM_1':
+        if user == 'NUM_1' or user == 'NUM_4':
 
             call = client.calls.create(
                 twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
