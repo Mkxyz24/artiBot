@@ -16,7 +16,7 @@ def make_call(users, courses):
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '84856', '86209', '96727', '89746', '87271']
     
-    set_available = set([d['title'] for d in courses])
+    set_available = set([d['id'] for d in courses])
 
     set_desired = set(desired_ab)
     open = set_available.intersection(set_desired)
