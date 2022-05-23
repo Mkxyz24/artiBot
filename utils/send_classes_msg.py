@@ -1,6 +1,36 @@
 from utils import make_call
 import discord
 import asyncio
+from datetime import datetime
+
+
+
+def time_check(cur_time):
+    #function to check if calls been made last hour
+    try:
+        with open('last_call.txt','r') as f:
+            r = f.read()     
+            print('read')
+    except FileNotFoundError:
+        print("file not found, creating one")
+        with open('last_call.txt','w+') as f:
+            f.write(cur_time)
+        return True
+    except:
+        print("error while reading file")
+        return False
+    else:
+        with open('last_call.txt','w+') as f:
+
+            d1 = datetime.strptime(r, "%d:%m:%Y:%H:%M:%S")
+            d2 = datetime.strptime(cur_time, "%d:%m:%Y:%H:%M:%S")
+            diff = d2-d1
+            diff_s = diff.total_seconds()
+            diff_hours = divmod(diff_s, 3600)[0]
+            #print(diff_s, diff_hours)
+            f.write(cur_time)
+        if (diff_hours > 1):
+            return True
 
 
 async def send_msg(bot, courses, ctx):
@@ -12,7 +42,7 @@ async def send_msg(bot, courses, ctx):
     if ctx == None:
         ch_gen = bot.get_all_channels()
         for channel in ch_gen:
-            if channel.name == "":
+            if channel.name == "course-updates":
                 id = channel.id
                 break
         ctx = bot.get_channel(id)
@@ -26,9 +56,13 @@ async def send_msg(bot, courses, ctx):
     phone_nums = ['NUM_1','NUM_4']
     if(no_of_courses!=0):
         try:
-            make_call.make_call(phone_nums, courses) 
-            #make a call to the specified numbers
+            utc_dt = datetime.utcnow()
+            c_t = utc_dt.strftime(r"%d:%m:%Y:%H:%M:%S")
+            if(time_check(c_t)):
+                make_call.make_call(phone_nums, courses) 
+                #make a call to the specified numbers
         except:
+            print("error in making call")
             pass
         for i in range(no_of_courses):
             if(i%5==0):
