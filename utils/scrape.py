@@ -11,10 +11,13 @@ from selenium.webdriver.chrome.options import Options
 from selenium.common.exceptions import TimeoutException, NoSuchElementException
 import traceback
 import sys
+import os
+from dotenv import load_dotenv
 
 
 def get_courses():
-    url = "https://webapp4.asu.edu/catalog/"
+    load_dotenv()
+    url = os.getenv('URL')
 
     #for local
     #driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))

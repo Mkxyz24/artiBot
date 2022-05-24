@@ -41,6 +41,7 @@ jobs:
       - name: Run a multi-line script
         env: 
           BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+          URL: ${{ secrets.URL}}
           NUM_1: ${{ secrets.NUM_1}}
           NUM_2: ${{ secrets.NUM_2}}
           NUM_4: ${{ secrets.NUM_4}}
