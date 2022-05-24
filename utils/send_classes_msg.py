@@ -27,9 +27,10 @@ def time_check(cur_time):
             diff = d2-d1
             diff_s = diff.total_seconds()
             diff_hours = divmod(diff_s, 3600)[0]
+            diff_mins = divmod(diff_s, 60)[0]
             #print(diff_s, diff_hours)
             f.write(cur_time)
-        if (diff_hours > 1):
+        if (diff_mins > 20):
             return True
 
 
