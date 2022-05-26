@@ -152,3 +152,6 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+
+courses.txt
+last_call.txt

@@ -112,6 +112,9 @@ def get_courses():
                         except TimeoutException:
                             print("cannot find non reserved table - timeout")
                             pass
+                        except:
+                            print("error while getting non reserved seats")
+                            pass
                         #end of non-reserved
                         if(dic['available'] > 0):
                             availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
