@@ -81,7 +81,7 @@ async def send_msg(bot, courses, ctx):
         try:
             utc_dt = datetime.utcnow()
             c_t = utc_dt.strftime(r"%d:%m:%Y:%H:%M:%S")
-            if(time_check(c_t) and course_check(courses)):
+            if(course_check(courses)):
                 make_call.make_call(phone_nums, courses) 
                 #make a call to the specified numbers
         except:
