@@ -80,13 +80,13 @@ async def send_msg(bot, courses, ctx):
     no_of_courses = len(courses)
     pages = []
     phone_nums = ['NUM_1','NUM_4','NUM_2']
-    if(no_of_courses!=0):
+    if(no_of_courses!=0 and course_check(courses)):
         try:
             utc_dt = datetime.utcnow()
             c_t = utc_dt.strftime(r"%d:%m:%Y:%H:%M:%S")
-            if(course_check(courses)):
-                make_call.make_call(phone_nums, courses) 
-                #make a call to the specified numbers
+            #if(course_check(courses)):
+            make_call.make_call(phone_nums, courses) 
+            #make a call to the specified numbers
         except:
             print("error in making call")
             pass
