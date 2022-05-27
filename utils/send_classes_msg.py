@@ -53,7 +53,16 @@ def course_check(courses):
             f.write(course_ids_str)
         t_minus_course_ids = r.split(",")
         if (set(t_minus_course_ids) != set(course_ids)):
-            return True
+            if len(set(t_minus_course_ids).intersection(set(course_ids))) !=0:
+                if(len(t_minus_course_ids) < len(course_ids)): #new addition to list
+                    return True
+                else:                 #removal from old list but previous course still there
+                    return False
+            else:  #completely new list
+                return True
+        
+        else:
+            return False
 
 
 async def send_msg(bot, courses, ctx):
