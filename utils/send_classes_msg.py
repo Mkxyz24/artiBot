@@ -34,7 +34,7 @@ def time_check(cur_time):
             return True
 
 def course_check(courses):
-    course_ids = [d['id'] for d in courses]
+    course_ids = set([d['id'] for d in courses])
     course_ids_str = ",".join(course_ids)
     try:
         with open('courses.txt','r') as f:
@@ -51,16 +51,10 @@ def course_check(courses):
     else:
         with open('courses.txt','w+') as f:
             f.write(course_ids_str)
-        t_minus_course_ids = r.split(",")
-        if (set(t_minus_course_ids) != set(course_ids)):
-            if len(set(t_minus_course_ids).intersection(set(course_ids))) !=0:
-                if(len(t_minus_course_ids) < len(course_ids)): #new addition to list
-                    return True
-                else:                 #removal from old list but previous course still there
-                    return False
-            else:  #completely new list
-                return True
-        
+        t_minus_course_ids = set(r.split(","))
+        #check for new course
+        if course_ids.difference(t_minus_course_ids):   #set difference to check for new list containing new elements
+            return True
         else:
             return False
 
