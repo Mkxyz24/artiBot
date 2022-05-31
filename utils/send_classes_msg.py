@@ -79,7 +79,7 @@ async def send_msg(bot, courses, ctx):
     #send embed
     no_of_courses = len(courses)
     pages = []
-    phone_nums = ['NUM_1','NUM_4','NUM_2']
+    phone_nums = ['NUM_1','NUM_2','NUM_3','NUM_4']
     if(no_of_courses!=0 and course_check(courses)):
         try:
             utc_dt = datetime.utcnow()
