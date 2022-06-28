@@ -22,7 +22,7 @@ def make_call(users, courses):
     #desired specific list
     desired_1 = ['76770','96730','96727','86208','78302','98225','86207']
     
-    desired_2 = ['96730', '76770', '96290'] 
+    desired_2 = ['96730', '76055'] 
     desired_3 = ['84856','96730','86208'] 
     desired_4 = ['78302', '98225','96292']          
 
@@ -33,7 +33,7 @@ def make_call(users, courses):
         #print(num)
         open = check_intersection(i,desired,courses)
         #ab all day calling
-        if user == 'NUM_1' or user == 'NUM_4' or user == 'NUM_2':
+        if user == 'NUM_2':
             if(len(open) > 0):
                 call = client.calls.create(
                     twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
