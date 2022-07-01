@@ -33,14 +33,14 @@ def make_call(users, courses):
         #print(num)
         open = check_intersection(i,desired,courses)
         #ab all day calling
-        if user == 'NUM_2':
-            if(len(open) > 0):
-                call = client.calls.create(
-                    twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
-                    to = num,
-                    from_ = '+19403737261'  
-                )
-                print(call.sid)
+
+        if(len(open) > 0):
+            call = client.calls.create(
+                twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
+                to = num,
+                from_ = '+19403737261'  
+            )
+            print(call.sid)
         #others only day time
         # if(current_time >= '07:00:00' and current_time <= '23:00:00'):
         #     if(len(open) > 0):
