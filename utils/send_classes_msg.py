@@ -84,16 +84,16 @@ async def send_msg(bot, courses, ctx):
 
         # ********* calling makecall
 
-        # #make call
-        # try:
-        #     utc_dt = datetime.utcnow()
-        #     c_t = utc_dt.strftime(r"%d:%m:%Y:%H:%M:%S")
-        #     #if(course_check(courses)):
-        #     make_call.make_call(phone_nums, courses) 
-        #     #make a call to the specified numbers
-        # except:
-        #     print("error in making call")
-        #     pass
+        #make call
+        try:
+            utc_dt = datetime.utcnow()
+            c_t = utc_dt.strftime(r"%d:%m:%Y:%H:%M:%S")
+            #if(course_check(courses)):
+            make_call.make_call(phone_nums, courses) 
+            #make a call to the specified numbers
+        except:
+            print("error in making call")
+            pass
         counter = 0
         for i in range(no_of_courses):
             #create new page embed
