@@ -22,7 +22,7 @@ def make_call(users, courses):
     #desired specific list
     desired_1 = ['76770','96730','96727','86208','78302','98225','86207']
     desired_2 = ['96730', '76055'] 
-    desired_3 = ['84856','96730','86208'] 
+    desired_3 = ['96730'] 
     desired_4 = ['78302', '98225','96292']          
 
     desired = [desired_1,desired_2, desired_3, desired_4]
@@ -34,12 +34,13 @@ def make_call(users, courses):
         #ab all day calling
 
         if(len(open) > 0):
-            call = client.calls.create(
-                twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
-                to = num,
-                from_ = '+19403737261'  
-            )
-            print(call.sid)
+            if user == 'NUM_3':
+                call = client.calls.create(
+                    twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
+                    to = num,
+                    from_ = '+19403737261'  
+                )
+                print(call.sid)
         #others only day time
         # if(current_time >= '07:00:00' and current_time <= '23:00:00'):
         #     if(len(open) > 0):
