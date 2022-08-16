@@ -1,8 +1,9 @@
+from turtle import title
 from utils import make_call
 import discord
 import asyncio
 from datetime import datetime
-
+import math
 
 
 def time_check(cur_time):
@@ -97,25 +98,40 @@ async def send_msg(bot, courses, ctx):
         counter = 0
         for i in range(no_of_courses):
             #create new page embed
-            if((25 - counter%25)<6 or counter == 0):   #6 fields for each course and (discord has 25 limit per embed,)
+            # if((25 - counter%25)<6 or counter == 0):   #6 fields for each course and (discord has 25 limit per embed,)
+            #     page = discord.Embed(
+            #         title='Page ' + str(int((counter+6)/25) + 1) + '/' + str(int((no_of_courses*6)/25) + 1),
+            #         description="Here are the available classes from your desired list",
+            #         colour = discord.Colour.orange()
+            #     )
+            #     pages.append(page)
+            # pages[int((counter+6)/25)].add_field(name="Title", value=courses[i]['title'], inline=True)
+            # counter = counter + 1
+            # pages[int((counter+6)/25)].add_field(name="Name", value=courses[i]['name'], inline=True)
+            # counter = counter + 1
+            # pages[int((counter+6)/25)].add_field(name="id", value=courses[i]['id'], inline=True)
+            # counter = counter + 1
+            # pages[int((counter+6)/25)].add_field(name="Available seats", value=courses[i]['available'], inline=True)
+            # counter = counter + 1
+            # pages[int((counter+6)/25)].add_field(name="total", value=courses[i]['total'], inline=True)
+            # counter = counter + 1
+            # pages[int((counter+6)/25)].add_field(name="\n\u200b", value="\n\u200b", inline=False)
+            # counter = counter + 1
+
+            if(i%4==0):
                 page = discord.Embed(
-                    title='Page ' + str(int((counter+6)/25) + 1) + '/' + str(int((no_of_courses*6)/25) + 1),
-                    description="Here are the available classes from your desired list",
+                    title='Page ' + str(int(i/4)+1) + '/' + str(math.ceil(no_of_courses/4)),
+                    description = 'available courses: ',
                     colour = discord.Colour.orange()
                 )
                 pages.append(page)
-            pages[int((counter+6)/25)].add_field(name="Title", value=courses[i]['title'], inline=True)
-            counter = counter + 1
-            pages[int((counter+6)/25)].add_field(name="Name", value=courses[i]['name'], inline=True)
-            counter = counter + 1
-            pages[int((counter+6)/25)].add_field(name="id", value=courses[i]['id'], inline=True)
-            counter = counter + 1
-            pages[int((counter+6)/25)].add_field(name="Available seats", value=courses[i]['available'], inline=True)
-            counter = counter + 1
-            pages[int((counter+6)/25)].add_field(name="total", value=courses[i]['total'], inline=True)
-            counter = counter + 1
-            pages[int((counter+6)/25)].add_field(name="\n\u200b", value="\n\u200b", inline=False)
-            counter = counter + 1
+            pages[(int(i/4)+1)].add_field(name="Title", value=courses[i]['title'], inline=True)
+            pages[(int(i/4)+1)].add_field(name="Name", value=courses[i]['name'], inline=True)
+            pages[(int(i/4)+1)].add_field(name="id", value=courses[i]['id'], inline=True)
+            pages[(int(i/4)+1)].add_field(name="Available seats", value=courses[i]['available'], inline=True)
+            pages[(int(i/4)+1)].add_field(name="total", value=courses[i]['total'], inline=True)
+            pages[(int(i/4)+1)].add_field(name="\n\u200b", value="\n\u200b", inline=False)          
+
 
         #sending multiple embeds, one for each page
         for page in pages:
