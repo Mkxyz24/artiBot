@@ -21,7 +21,7 @@ def make_call(users, courses):
 
     #desired specific list
     desired_1 = ['76770','96730','96727','86208','78302','98225','86207']
-    desired_2 = ['97807'] 
+    desired_2 = ['97807','77802','83405'] 
     desired_3 = ['96730'] 
 
     desired_4 = ['78302', '98225','96292']          
