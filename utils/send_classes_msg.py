@@ -125,12 +125,12 @@ async def send_msg(bot, courses, ctx):
                     colour = discord.Colour.orange()
                 )
                 pages.append(page)
-            pages[(int(i/4)+1)].add_field(name="Title", value=courses[i]['title'], inline=True)
-            pages[(int(i/4)+1)].add_field(name="Name", value=courses[i]['name'], inline=True)
-            pages[(int(i/4)+1)].add_field(name="id", value=courses[i]['id'], inline=True)
-            pages[(int(i/4)+1)].add_field(name="Available seats", value=courses[i]['available'], inline=True)
-            pages[(int(i/4)+1)].add_field(name="total", value=courses[i]['total'], inline=True)
-            pages[(int(i/4)+1)].add_field(name="\n\u200b", value="\n\u200b", inline=False)          
+            pages[(int(i/4))].add_field(name="Title", value=courses[i]['title'], inline=True)
+            pages[(int(i/4))].add_field(name="Name", value=courses[i]['name'], inline=True)
+            pages[(int(i/4))].add_field(name="id", value=courses[i]['id'], inline=True)
+            pages[(int(i/4))].add_field(name="Available seats", value=courses[i]['available'], inline=True)
+            pages[(int(i/4))].add_field(name="total", value=courses[i]['total'], inline=True)
+            pages[(int(i/4))].add_field(name="\n\u200b", value="\n\u200b", inline=False)          
 
 
         #sending multiple embeds, one for each page
