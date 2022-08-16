@@ -97,27 +97,13 @@ async def send_msg(bot, courses, ctx):
             pass
         counter = 0
         for i in range(no_of_courses):
-            #create new page embed
-            # if((25 - counter%25)<6 or counter == 0):   #6 fields for each course and (discord has 25 limit per embed,)
-            #     page = discord.Embed(
-            #         title='Page ' + str(int((counter+6)/25) + 1) + '/' + str(int((no_of_courses*6)/25) + 1),
-            #         description="Here are the available classes from your desired list",
-            #         colour = discord.Colour.orange()
-            #     )
-            #     pages.append(page)
-            # pages[int((counter+6)/25)].add_field(name="Title", value=courses[i]['title'], inline=True)
-            # counter = counter + 1
-            # pages[int((counter+6)/25)].add_field(name="Name", value=courses[i]['name'], inline=True)
-            # counter = counter + 1
-            # pages[int((counter+6)/25)].add_field(name="id", value=courses[i]['id'], inline=True)
-            # counter = counter + 1
-            # pages[int((counter+6)/25)].add_field(name="Available seats", value=courses[i]['available'], inline=True)
-            # counter = counter + 1
-            # pages[int((counter+6)/25)].add_field(name="total", value=courses[i]['total'], inline=True)
-            # counter = counter + 1
-            # pages[int((counter+6)/25)].add_field(name="\n\u200b", value="\n\u200b", inline=False)
-            # counter = counter + 1
 
+            '''
+            only 4 courses fit in one page because,
+            we are using 6 fields for each course and,
+            discord allows only 25 fields in one embed
+            please adjust accordingly if your desired number of fields are changed
+            '''
             if(i%4==0):
                 page = discord.Embed(
                     title='Page ' + str(int(i/4)+1) + '/' + str(math.ceil(no_of_courses/4)),
