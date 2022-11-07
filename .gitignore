@@ -155,3 +155,5 @@ venv.bak/
 
 courses.txt
 last_call.txt
+numbers.txt
+**/.DS_Store

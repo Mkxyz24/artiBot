@@ -63,9 +63,9 @@ def main():
         may not be released properly. If you want your threads to stop gracefully, 
         make them non-daemonic and use a suitable signalling mechanism such as an Event.
         '''
-        # clientLoop = asyncio.get_event_loop()
-        # job_thread = threading.Thread(target=run_continuously, args=(bot,clientLoop,), daemon=True)
-        # job_thread.start()
+        clientLoop = asyncio.get_event_loop()
+        job_thread = threading.Thread(target=run_continuously, args=(bot,clientLoop,), daemon=True)
+        job_thread.start()
 
 
     for filename in os.listdir('./cogs'):

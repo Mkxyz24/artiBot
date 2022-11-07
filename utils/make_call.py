@@ -35,7 +35,7 @@ def make_call(users, courses):
         #ab all day calling
 
         if(len(open) > 0):
-            if user == 'NUM_3' or user == 'NUM_2' or user == 'NUM_4':
+            if user == 'NUM_1':
                 call = client.calls.create(
                     twiml='<Response><Say>Hello ' + user + ', your desired courses are open!</Say></Response>',
                     to = num,
