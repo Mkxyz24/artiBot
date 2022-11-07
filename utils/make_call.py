@@ -20,7 +20,7 @@ def make_call(users, courses):
     client = Client(account_sid, auth_token)
 
     #desired specific list
-    desired_1 = ['20829','25642','30492','22119']
+    desired_1 = ['20829','25642','30492','22119','23711']
     desired_2 = [] 
     desired_3 = ['96730'] 
     desired_4 = ['96727', '86207']          
