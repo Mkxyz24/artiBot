@@ -31,10 +31,13 @@ def get_courses():
 
     data = []
 
-    fall22Courses = ['92030', '70517', '90104', '97669', '98388', '95561',
+    fall22 = ['92030', '70517', '90104', '97669', '98388', '95561',
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
+    spring22 = ['20829','25642','30492','22119']
+    currentSem = spring22
+
     try:
         element = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
@@ -71,7 +74,7 @@ def get_courses():
                     courseId = cols[2]
                     dic = {}
                     id = courseId.text.replace(' ','')
-                    if id in fall22Courses:
+                    if id in currentSem:
                         nameCol = cols[1]
                         
                         try:
