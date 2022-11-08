@@ -51,8 +51,8 @@ def get_courses():
             EC.presence_of_element_located((By.NAME,"subject"))
         )
         element.send_keys("CSE")
-        driver.implicitly_wait(2)
-        WebDriverWait(driver, 5,poll_frequency=1).until(
+        # driver.implicitly_wait(2)
+        WebDriverWait(driver, 5).until(
             EC.text_to_be_present_in_element_value((By.NAME,"subject"),"CSE")
         )       
         element.send_keys(Keys.RETURN)
