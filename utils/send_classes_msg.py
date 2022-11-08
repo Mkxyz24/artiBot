@@ -40,7 +40,7 @@ def course_check(courses):
     try:
         with open('courses.txt','r') as f:
             r = f.read()     
-            print('read')
+            # print('read')
     except FileNotFoundError:
         print("file not found, creating one")
         with open('courses.txt','w+') as f:
@@ -81,6 +81,7 @@ async def send_msg(bot, courses, ctx):
     no_of_courses = len(courses)
     pages = []
     phone_nums = ['NUM_1','NUM_2','NUM_3','NUM_4']
+
     if(no_of_courses!=0 and course_check(courses)):
 
         # ********* calling makecall

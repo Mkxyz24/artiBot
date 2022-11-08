@@ -20,7 +20,7 @@ def get_courses():
     url = os.getenv('URL')
 
     #for local
-    #driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="101.0.4951.41").install()))
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
     #for github actions
     chrome_options = Options()
@@ -35,79 +35,125 @@ def get_courses():
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
-    spring22 = ['20829','25642','30492','22119','23711','29399']
+    spring22 = ['20829','25642','30492','22119','23711']
     currentSem = spring22
-
+    term_select_value = "2231"
     try:
-        element = WebDriverWait(driver, 10).until(
-            EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
-        )
-        #element.click()
-        driver.execute_script('arguments[0].click()', element)
-        element = WebDriverWait(driver, 10).until(
-            EC.presence_of_element_located((By.ID, "subjectEntry"))
+        # element = WebDriverWait(driver, 10).until(
+        #     EC.element_to_be_clickable((By.ID, "searchTypeAllClass"))
+        # )
+        # #element.click()
+        # driver.execute_script('arguments[0].click()', element)
+        WebDriverWait(driver, 5,poll_frequency=1).until(
+            EC.text_to_be_present_in_element_value((By.ID,"term"),term_select_value)
+        )     
+        element = WebDriverWait(driver, 5).until(
+            EC.presence_of_element_located((By.NAME,"subject"))
         )
         element.send_keys("CSE")
+        driver.implicitly_wait(2)
+        WebDriverWait(driver, 5,poll_frequency=1).until(
+            EC.text_to_be_present_in_element_value((By.NAME,"subject"),"CSE")
+        )       
         element.send_keys(Keys.RETURN)
-
+        # driver.implicitly_wait(1)
+        # element = WebDriverWait(driver, 20).until(
+        #     EC.element_to_be_clickable((By.ID,"search-button"))
+        # )
+        # driver.execute_script('arguments[0].click()', element)
         element = WebDriverWait(driver, 20).until(
             EC.presence_of_element_located((By.CSS_SELECTOR,".pagination"))
         )
 
-        pages = driver.find_elements(By.CSS_SELECTOR,".change-page")
+        pages = driver.find_elements(By.CSS_SELECTOR,".page-item")
         #print(len(pages))
-        
+
         for i in range(len(pages)):
             try:
+                driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
                 #wait time for page to load
                 element = WebDriverWait(driver, 20).until(
-                    EC.presence_of_element_located((By.ID, "Any_23"))
+                    EC.presence_of_element_located((By.CSS_SELECTOR,".pagination"))
                 )
 
-                #data processing
-                table = driver.find_element(By.ID,"CatalogList")
-                tbody = table.find_element(By.TAG_NAME,"tbody")
-                rows = tbody.find_elements(By.TAG_NAME,"tr")
+                # #data processing
+                # table = driver.find_element(By.ID,"CatalogList")
+                # tbody = table.find_element(By.TAG_NAME,"tbody")
+                # rows = tbody.find_elements(By.TAG_NAME,"tr")
+                table = driver.find_element(By.ID,"class-results")
+                cresults = table.find_element(By.CLASS_NAME,"class-results-rows")
+                rows = cresults.find_elements(By.XPATH,"//div[contains(concat(' ', @class, ' '), ' class-accordion ')]")
+                # cols = rows[0].find_elements(By.XPATH,"//div[contains(@class, 'class-results-cell')]")
+                # print(cols)
                 for row in rows:
-                    cols= row.find_elements(By.TAG_NAME,"td")
-                    titleCol = cols[0]
-                    courseId = cols[2]
+                    # cols = row.find_elements(By.CLASS_NAME,"")
+                    # print(len(cols))
+                    #cols= row.find_elements(By.TAG_NAME,"td")
+                    course = row.find_element(By.CLASS_NAME,"course")
+                    number = row.find_element(By.CLASS_NAME,"number")
                     dic = {}
-                    id = courseId.text.replace(' ','')
+                    id = number.text.replace(' ','')
+                    
                     if id in currentSem:
-                        nameCol = cols[1]
-                        
+                        title = row.find_element(By.CLASS_NAME,"title")
+                        seats = row.find_element(By.CLASS_NAME,"seats")
                         try:
-                            name = WebDriverWait(nameCol, 10).until(
-                                EC.element_to_be_clickable((By.CLASS_NAME,"class-results-drawer"))
-                            )
+                            # course = WebDriverWait(course, 10).until(
+                            #     EC.element_to_be_clickable((By.CLASS_NAME,"course"))
+                            # )
+
                             #nameCol.find_element(By.CLASS_NAME,"class-results-drawer")
                         
                             #non reserved
-                            driver.execute_script('arguments[0].click()', name)
+                            #driver.execute_script('arguments[0].click()', name)
                             #name.click()
-                            try:
-                                element = WebDriverWait(driver, 3).until(
-                                    EC.presence_of_element_located((By.CSS_SELECTOR, "#reserved-tbl > tbody .total"))
-                                )    
-                            except TimeoutException:
-                                print("cannot find non reserved table - no such element")
-                                available = cols[10]
-                                open = available.find_element(By.TAG_NAME,"span")
-                                print(open.text)
-                                dic['available'] = int(open.text)
-                                #continue
-                            else:
-                                nr_text = element.text
-                                nr = None
-                                if nr_text!=None:
-                                    nr_text = nr_text.replace('Non Reserved Available Seats: ','')
-                                    #print(nr + " " + name.text)
-                                    nr = int(nr_text)
-                                    dic['available'] = nr
+                            seats = WebDriverWait(row, 10).until(
+                                EC.presence_of_element_located((By.CLASS_NAME,"seats"))
+                            )
+                            icon_svg = seats.find_element(By.TAG_NAME,"svg")
+                            data_icon = icon_svg.get_attribute("data-icon")
+
+                            #check if open or reserved
+                            if data_icon == "circle":
+                                # print(id)
+                                seats_list = seats.text.split()
+                                totalseats = seats_list[2]
+                                open = seats_list[0]
+                                
+                                # dic['available'] = 
+                                
+                                try:
+                                    driver.execute_script('arguments[0].click()', title)
+                                    element = WebDriverWait(driver, 10).until(
+                                        EC.presence_of_element_located((By.CSS_SELECTOR, ".reserved-seats > tbody > tr:last-child"))
+                                    )    
+
+                                except TimeoutException:
+                                    print("cannot find non reserved table - no such element")
+                                    # available = cols[10]
+                                    # open = available.find_element(By.TAG_NAME,"span")
+                                    #print(open.text)
+                                    dic['available'] = int(open)
+                                    #continue
                                 else:
-                                    #dic["available"] = None
-                                    continue
+                                    # element = WebDriverWait(driver, 3).until(
+                                    #     EC.presence_of_element_located((By.CSS_SELECTOR, ".reserved-seats > tbody > tr:last-child"))
+                                    # ) 
+                                    nr_text = element.text
+                                    # print(nr_text)
+                                    nr = None
+                                    driver.execute_script('arguments[0].click()', title)
+                                    if nr_text!=None:
+                                        nr_text = nr_text.replace('Non Reserved Available Seats: ','')
+                                        #print(nr + " " + name.text)
+                                        nr = int(nr_text)
+                                        dic['available'] = nr
+                                    else:
+                                        # dic["available"] = int(open)
+                                        continue
+                                    
+                            else:
+                                dic['available'] = 0
 
                         except NoSuchElementException:
                             print("cannot find class results drawer - timed out")
@@ -120,32 +166,36 @@ def get_courses():
                             pass
                         #end of non-reserved
                         if(dic['available'] > 0):
-                            availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
-                            values = availableCol.find_elements(By.TAG_NAME, "span")
-                            dic['title'] = titleCol.text
-                            dic['name'] = nameCol.text
+                            # availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
+                            # values = availableCol.find_elements(By.TAG_NAME, "span")
+                            dic['title'] = course.text
+                            dic['name'] = title.text
                             dic['id'] = id
                             #dic['available'] = int(values[0].text)
-                            dic['total'] = int(values[2].text)
+                            dic['total'] = totalseats
 
                             data.append(dic)
                 
                 #wait for next page button and click it
                 if(i != (len(pages)-1)):   #if not last page
-                    element = WebDriverWait(driver, 10).until(
-                        EC.element_to_be_clickable((By.ID, "Any_24"))
-                    )
-                    #next page button id Any_24
-                    driver.execute_script('arguments[0].click()', element)
-                #element.click()
-                #wait to load
-                    element = WebDriverWait(driver, 10).until(
-                        EC.staleness_of(element)
-                    )   
-            
+                    # element = WebDriverWait(driver, 10).until(
+                    #     EC.element_to_be_clickable((By.ID, "Any_24"))
+                    # )
+                    # #next page button id Any_24
+                    # driver.execute_script('arguments[0].click()', element)
+                    # #element.click()
+                    # #wait to load
+                    # element = WebDriverWait(driver, 10).until(
+                    #     EC.staleness_of(element)
+                    # )   
+                    # driver.execute_script('arguments[0].click()', pages[i+1])
+                    pages[i+1].click()
+                    # element = WebDriverWait(driver, 10).until(
+                    #     EC.staleness_of(element)
+                    # )   
 
-            except TimeoutException:
-                print('next page element not found')
+            except TimeoutException as e:
+                print('next page element not found with error:',e)
                 #break
 
     except Exception as e:
