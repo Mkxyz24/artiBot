@@ -188,8 +188,9 @@ def get_courses():
                     # element = WebDriverWait(driver, 10).until(
                     #     EC.staleness_of(element)
                     # )   
-                    # driver.execute_script('arguments[0].click()', pages[i+1])
-                    pages[i+1].click()
+                    #driver.execute_script('arguments[0].click()', pages[i+1])
+                    #pages[i+1].click()
+                    webdriver.ActionChains(driver).move_to_element(pages[i+1] ).click(pages[i+1] ).perform()
                     # element = WebDriverWait(driver, 10).until(
                     #     EC.staleness_of(element)
                     # )   
