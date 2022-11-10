@@ -18,7 +18,7 @@ from dotenv import load_dotenv
 def get_courses():
     load_dotenv()
     url = os.getenv('URL')
-
+    print(url)
     #for local
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
