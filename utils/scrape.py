@@ -115,7 +115,7 @@ def get_courses():
 
                             #check if open or reserved
                             if data_icon == "circle":
-                                # print(id)
+                                print('available',id)
                                 seats_list = seats.text.split()
                                 totalseats = seats_list[2]
                                 open = seats_list[0]
@@ -153,6 +153,7 @@ def get_courses():
                                         continue
                                     
                             else:
+                                print('not available',id)
                                 dic['available'] = 0
 
                         except NoSuchElementException:
