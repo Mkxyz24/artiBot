@@ -93,7 +93,7 @@ def get_courses():
                     number = row.find_element(By.CLASS_NAME,"number")
                     dic = {}
                     id = number.text.replace(' ','')
-                    
+                    print(id)
                     if id in currentSem:
                         title = row.find_element(By.CLASS_NAME,"title")
                         seats = row.find_element(By.CLASS_NAME,"seats")
