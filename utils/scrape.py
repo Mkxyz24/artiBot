@@ -20,12 +20,12 @@ def get_courses():
     url = os.getenv('URL')
     print(url)
     #for local
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
     #for github actions
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')
-    # driver = webdriver.Chrome(options=chrome_options)
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(url)
 
