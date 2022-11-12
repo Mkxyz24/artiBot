@@ -20,12 +20,12 @@ def get_courses():
     url = os.getenv('URL')
     print(url)
     #for local
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
     #for github actions
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(options=chrome_options)
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(url)
 
@@ -82,7 +82,8 @@ def get_courses():
                 # rows = tbody.find_elements(By.TAG_NAME,"tr")
                 table = driver.find_element(By.ID,"class-results")
                 cresults = table.find_element(By.CLASS_NAME,"class-results-rows")
-                rows = cresults.find_elements(By.XPATH,"//div[contains(concat(' ', @class, ' '), ' class-accordion ')]")
+                # rows = cresults.find_elements(By.XPATH,"//div[contains(concat(' ', @class, ' '), ' class-accordion ')]")
+                rows = cresults.find_elements(By.CLASS_NAME,"class-accordion")
                 # cols = rows[0].find_elements(By.XPATH,"//div[contains(@class, 'class-results-cell')]")
                 # print(cols)
                 for row in rows:
