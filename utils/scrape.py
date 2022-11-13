@@ -40,7 +40,6 @@ def get_courses():
     term_select_value = "2231"
     try:
         for c_num in currentSem:
-            print(c_num)
             dic = {}
             try:
                 WebDriverWait(driver, 5,poll_frequency=1).until(
@@ -49,8 +48,8 @@ def get_courses():
                 subject_element = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.NAME,"subject"))
                 )
-                subject_element.send_keys(Keys.COMMAND, "a")
-                subject_element.send_keys(Keys.BACKSPACE)
+                subject_element.send_keys(Keys.CONTROL, "a")
+                subject_element.send_keys(Keys.DELETE)
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"subject"),"")
                 )   
@@ -62,8 +61,8 @@ def get_courses():
                 keyword_element = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.NAME,"keywords"))
                 )
-                keyword_element.send_keys(Keys.COMMAND, "a")
-                keyword_element.send_keys(Keys.BACKSPACE)
+                keyword_element.send_keys(Keys.CONTROL, "a")
+                keyword_element.send_keys(Keys.DELETE)
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"keywords"),"")
                 )   
@@ -89,7 +88,8 @@ def get_courses():
                 number = driver.find_element(By.CSS_SELECTOR,".class-results-cell.number")
                 
                 id = number.text.replace(' ','')
-                # print(id)
+                print('retrieved id :', id)
+                print('actual id :',c_num)
                 title = driver.find_element(By.CSS_SELECTOR,".class-results-cell.title")
                 seats = driver.find_element(By.CSS_SELECTOR,".class-results-cell.seats")
                 icon_svg = seats.find_element(By.TAG_NAME,"svg")
