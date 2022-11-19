@@ -52,7 +52,7 @@ def get_courses():
                 subject_element.send_keys(Keys.DELETE)
                 # subject_element.send_keys(Keys.COMMAND, "a")
                 # subject_element.send_keys(Keys.BACK_SPACE)
-                print("control - a select done for field subject")
+                # print("control - a select done for field subject")
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"subject"),"")
                 )   
@@ -61,7 +61,7 @@ def get_courses():
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"subject"),"CSE")
                 )   
-                print(subject_element.text)
+                # print(subject_element.text)
                 # driver.implicitly_wait(2)
                 keyword_element = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.NAME,"keywords"))
@@ -71,7 +71,7 @@ def get_courses():
                 keyword_element.send_keys(Keys.DELETE)
                 # keyword_element.send_keys(Keys.COMMAND, "a")
                 # keyword_element.send_keys(Keys.BACK_SPACE)
-                print("control - a select done for field subject")
+                # print("control - a select done for field subject")
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"keywords"),"")
                 )   
@@ -81,7 +81,7 @@ def get_courses():
                 )   
                 print(keyword_element.text)
                 keyword_element.send_keys(Keys.RETURN)
-                print("finished sending data to fields subject and keyword for course ", c_num)
+                # print("finished sending data to fields subject and keyword for course ", c_num)
                 # WebDriverWait(driver, 20).until(
                 #     EC.presence_of_element_located((By.CSS_SELECTOR,".class-results-cell.seats"))
                 # ) 
@@ -95,7 +95,7 @@ def get_courses():
                 ) 
                 open = 1
                 for s_title in search_titles:
-                    print(s_title.text)
+                    # print(s_title.text)
                     if(s_title.text == "No classes found"):
                         open = 0
                 if open == 0:
