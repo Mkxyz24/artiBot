@@ -17,8 +17,8 @@ from dotenv import load_dotenv
 
 def get_courses():
     load_dotenv()
-    url = str(os.getenv('URL'))
-    print(url)
+    # url = str(os.getenv('URL'))
+    url = "https://catalog.apps.asu.edu/catalog/classes"
     #for local
     # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
@@ -36,10 +36,12 @@ def get_courses():
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
     spring22 = ['20829','25642','30492','22119','23711','29399']
+    # spring22 = ['29399']
     currentSem = spring22
     term_select_value = "2231"
     try:
         for c_num in currentSem:
+            print("starting search for course: ",c_num)
             dic = {}
             try:
                 WebDriverWait(driver, 5,poll_frequency=1).until(
@@ -50,19 +52,28 @@ def get_courses():
                 )
                 subject_element.send_keys(Keys.CONTROL, "a")
                 subject_element.send_keys(Keys.DELETE)
+                # subject_element.send_keys(Keys.COMMAND, "a")
+                # subject_element.send_keys(Keys.BACK_SPACE)
+                print("control - a select done for field subject")
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"subject"),"")
                 )   
                 subject_element.send_keys("CSE")
+                
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"subject"),"CSE")
                 )   
+                print(subject_element.text)
                 # driver.implicitly_wait(2)
                 keyword_element = WebDriverWait(driver, 5).until(
                     EC.presence_of_element_located((By.NAME,"keywords"))
                 )
+                
                 keyword_element.send_keys(Keys.CONTROL, "a")
                 keyword_element.send_keys(Keys.DELETE)
+                # keyword_element.send_keys(Keys.COMMAND, "a")
+                # keyword_element.send_keys(Keys.BACK_SPACE)
+                print("control - a select done for field subject")
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"keywords"),"")
                 )   
@@ -70,14 +81,33 @@ def get_courses():
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element_value((By.NAME,"keywords"),c_num)
                 )   
+                print(keyword_element.text)
                 keyword_element.send_keys(Keys.RETURN)
+                print("finished sending data to fields subject and keyword for course ", c_num)
                 # WebDriverWait(driver, 20).until(
                 #     EC.presence_of_element_located((By.CSS_SELECTOR,".class-results-cell.seats"))
                 # ) 
+                s_title = "Results for CSE "+c_num
+                WebDriverWait(driver, 5).until(
+                    EC.text_to_be_present_in_element((By.CLASS_NAME,"search-title"),s_title)
+                )  
+
+                search_titles = WebDriverWait(driver, 20).until(
+                    EC.presence_of_all_elements_located((By.CLASS_NAME,"search-title"))
+                ) 
+                open = 1
+                for s_title in search_titles:
+                    print(s_title.text)
+                    if(s_title.text == "No classes found"):
+                        open = 0
+                if open == 0:
+                    print("No classes found, going for the next course in list")
+                    continue
+
                 WebDriverWait(driver, 20).until(
                     EC.text_to_be_present_in_element((By.CSS_SELECTOR,".class-results-cell.number"),c_num)
                 ) 
-                
+                print("found class results cell with number ",c_num )
                 # keyword_element.send_keys(Keys.CONTROL, "a")
                 # keyword_element.send_keys(Keys.DELETE)
                 # WebDriverWait(driver, 5).until(
@@ -151,8 +181,12 @@ def get_courses():
             except TimeoutException:
                 print("cannot find non reserved table - timeout")
                 pass
-            except:
-                print("error while getting non reserved seats")
+            except Exception as e:
+                print("error while getting non reserved seats: ", e)
+                print(traceback.format_exc())
+                # or
+                print(sys.exc_info()[2])
+                
                 pass
 
 
@@ -166,6 +200,7 @@ def get_courses():
         #print(data)
         # for course in data:
         #     print(course['available'])
+        print(data)
         return data
 
     # try:
