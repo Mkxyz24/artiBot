@@ -101,10 +101,6 @@ def get_courses():
                 if open == 0:
                     print("No classes found, going for the next course in list")
                     continue
-
-                # WebDriverWait(driver, 20).until(
-                #     EC.text_to_be_present_in_element((By.CSS_SELECTOR,".class-results-cell.number"),c_num)
-                # ) 
                 c_num_retrieved = ""
                 while c_num_retrieved == "":
                     course_num = WebDriverWait(driver, 5).until(
