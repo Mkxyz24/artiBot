@@ -52,3 +52,4 @@ jobs:
           echo Add other actions to build,
           echo test, and deploy your project.
           python main.py
+        shell: sh
