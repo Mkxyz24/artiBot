@@ -18,12 +18,12 @@ def get_courses():
     # url = str(os.getenv('URL'))
     url = "https://catalog.apps.asu.edu/catalog/classes"
     #for local
-    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
     #for github actions
-    # chrome_options = Options()
-    # chrome_options.add_argument('--headless')
-    # driver = webdriver.Chrome(options=chrome_options)
+    chrome_options = Options()
+    chrome_options.add_argument('--headless')
+    driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(url)
 
@@ -33,8 +33,8 @@ def get_courses():
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
-    # spring22 = ['20829','25642','30492','22119','23711','29399']
-    spring22 = ['29399']
+    spring22 = ['20829','25642','30492','22119','23711','29399']
+    # spring22 = ['29399']
     currentSem = spring22
     term_select_value = "2231"
     try:
