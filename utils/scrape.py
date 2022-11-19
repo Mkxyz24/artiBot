@@ -1,5 +1,3 @@
-
-from ast import Try
 from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.keys import Keys
@@ -20,12 +18,12 @@ def get_courses():
     # url = str(os.getenv('URL'))
     url = "https://catalog.apps.asu.edu/catalog/classes"
     #for local
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
+    driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
 
     #for github actions
-    chrome_options = Options()
-    chrome_options.add_argument('--headless')
-    driver = webdriver.Chrome(options=chrome_options)
+    # chrome_options = Options()
+    # chrome_options.add_argument('--headless')
+    # driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(url)
 
@@ -35,8 +33,8 @@ def get_courses():
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
-    spring22 = ['20829','25642','30492','22119','23711','29399']
-    # spring22 = ['29399']
+    # spring22 = ['20829','25642','30492','22119','23711','29399']
+    spring22 = ['29399']
     currentSem = spring22
     term_select_value = "2231"
     try:
@@ -107,6 +105,13 @@ def get_courses():
                 WebDriverWait(driver, 20).until(
                     EC.text_to_be_present_in_element((By.CSS_SELECTOR,".class-results-cell.number"),c_num)
                 ) 
+                c_num_retrieved = ""
+                while c_num_retrieved == "":
+                    course_num = WebDriverWait(driver, 5).until(
+                        EC.presence_of_element_located((By.CSS_SELECTOR,".class-results-cell.number"))
+                    )
+                    if course_num.text == c_num:
+                        c_num_retrieved = c_num
                 print("found class results cell with number ",c_num )
                 # keyword_element.send_keys(Keys.CONTROL, "a")
                 # keyword_element.send_keys(Keys.DELETE)
@@ -177,9 +182,15 @@ def get_courses():
                     data.append(dic)
             except NoSuchElementException:
                 print("cannot find class results drawer - timed out")
+                print(traceback.format_exc())
+                # or
+                print(sys.exc_info()[2])
                 pass
             except TimeoutException:
                 print("cannot find non reserved table - timeout")
+                print(traceback.format_exc())
+                # or
+                print(sys.exc_info()[2])
                 pass
             except Exception as e:
                 print("error while getting non reserved seats: ", e)
