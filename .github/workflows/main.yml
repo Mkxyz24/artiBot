@@ -53,13 +53,5 @@ jobs:
         run: |
           echo Add other actions to build,
           echo test, and deploy your project.
-          python main.py    
-  
-  output-job:
-    runs-on: ubuntu-latest
-    concurrency: 
-      group: ${{ github.ref }}
-      cancel-in-progress: true
-    needs: build
-    steps:
-      - run: echo ${{needs.build.outputs.output1}}
+          python main.py   
+          echo "${{steps.main.outputs.output1}}" 

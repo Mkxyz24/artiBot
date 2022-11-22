@@ -11,7 +11,7 @@ import traceback
 import sys
 import os
 from dotenv import load_dotenv
-
+import subprocess
 
 
 def set_action_output(output_name, value) :
@@ -21,9 +21,12 @@ def set_action_output(output_name, value) :
     output_name - The name of the output
     value - The value of the output
     """
+    print(value)
     if "GITHUB_OUTPUT" in os.environ :
         with open(os.environ["GITHUB_OUTPUT"], "a") as f :
             print("{0}={1}".format(output_name, value), file=f)
+        e = "echo '${{steps.main.outputs.output1}}'"
+        subprocess.call(e, shell=True)
 
 
 def get_courses():
