@@ -57,6 +57,9 @@ jobs:
   
   output-job:
     runs-on: ubuntu-latest
+    concurrency: 
+      group: ${{ github.ref }}
+      cancel-in-progress: true
     needs: build
     steps:
       - run: echo ${{needs.build.outputs.output1}}
