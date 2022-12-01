@@ -31,14 +31,17 @@ def set_action_output(output_name, value) :
 
 def get_courses():
     load_dotenv()
-    # url = str(os.getenv('URL'))
-    url = "https://catalog.apps.asu.edu/catalog/classes"
+    url = str(os.getenv('URL'))
     #for local
-    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()))
+    # options = webdriver.ChromeOptions()
+    # options.add_argument('--headless')
+    # options.add_argument("--window-size=1440,900")
+    # driver = webdriver.Chrome(service=Service(ChromeDriverManager(version="107.0.5304.62").install()),options=options)
 
     #for github actions
     chrome_options = Options()
     chrome_options.add_argument('--headless')
+    chrome_options.add_argument("--window-size=1440,900")
     driver = webdriver.Chrome(options=chrome_options)
 
     driver.get(url)
@@ -49,7 +52,7 @@ def get_courses():
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
-    spring22 = ['20829','25642','30492','22119','23711','29399']
+    spring22 = ['20829','25642','30492','22119','23711','29446']
     # spring22 = ['29399']
     currentSem = spring22
     term_select_value = "2231"
@@ -96,6 +99,7 @@ def get_courses():
                 #     EC.presence_of_element_located((By.CSS_SELECTOR,".class-results-cell.seats"))
                 # ) 
                 s_title = "Results for CSE "+c_num
+                output = output+s_title+"\n"
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element((By.CLASS_NAME,"search-title"),s_title)
                 )  
