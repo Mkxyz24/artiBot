@@ -137,7 +137,7 @@ def get_courses():
                 data_icon = icon_svg.get_attribute("data-icon")
 
                 if data_icon == "circle":
-                    output = output + ' ' + id + " available" + "\n"
+                    
                     seats_list = seats.text.split()
                     totalseats = seats_list[2]
                     open = seats_list[0]
@@ -167,6 +167,7 @@ def get_courses():
                         if nr_text!=None:
                             nr_text = nr_text.replace('Non Reserved Available Seats: ','')
                             nr = int(nr_text)
+                            output = output + ' ' + id + " non reserved available" + "\n"
                             dic['available'] = nr
                         else:
                             # dic["available"] = int(open)
