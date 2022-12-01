@@ -220,6 +220,7 @@ def get_courses():
         # print(sys.exc_info()[2])
         driver.quit()
     finally:
-        set_action_output("output1",output)
+        print(output)
+        # set_action_output("output1",output)
         driver.quit()
         return data
