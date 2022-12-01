@@ -99,7 +99,7 @@ def get_courses():
                 #     EC.presence_of_element_located((By.CSS_SELECTOR,".class-results-cell.seats"))
                 # ) 
                 s_title = "Results for CSE "+c_num
-                output = output+s_title+"\n"
+                # output = output+s_title+"\n"
                 WebDriverWait(driver, 5).until(
                     EC.text_to_be_present_in_element((By.CLASS_NAME,"search-title"),s_title)
                 )  
@@ -113,7 +113,7 @@ def get_courses():
                         open = 0
                 if open == 0:
                     # print("No classes found, going for the next course in list")
-                    output = output + "No classes found, going for the next course in list" + "\n"
+                    # output = output + "No classes found, going for the next course in list" + "\n"
                     continue
                 c_num_retrieved = ""
                 while c_num_retrieved == "":
@@ -137,8 +137,7 @@ def get_courses():
                 data_icon = icon_svg.get_attribute("data-icon")
 
                 if data_icon == "circle":
-                    print('available')
-                    output = output + "available" + "\n"
+                    output = output + ' ' + id + " available" + "\n"
                     seats_list = seats.text.split()
                     totalseats = seats_list[2]
                     open = seats_list[0]
@@ -174,7 +173,7 @@ def get_courses():
                             continue
                 else:
                     # print('seats not available for this course')
-                    output = output + "seats not available for this course" + "\n"
+                    # output = output + "seats not available for this course" + "\n"
                     dic['available'] = 0
 
                 if(dic['available'] > 0):
