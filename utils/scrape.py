@@ -167,7 +167,6 @@ def get_courses():
                         if nr_text!=None:
                             nr_text = nr_text.replace('Non Reserved Available Seats: ','')
                             nr = int(nr_text)
-                            output = output + ' ' + id + " non reserved available" + "\n"
                             dic['available'] = nr
                         else:
                             # dic["available"] = int(open)
@@ -180,6 +179,7 @@ def get_courses():
                 if(dic['available'] > 0):
                     # availableCol = row.find_element(By.CLASS_NAME,"availableSeatsColumnValue")
                     # values = availableCol.find_elements(By.TAG_NAME, "span")
+                    output = output + ' ' + id + " non reserved available" + "\n"
                     dic['title'] = course.text
                     dic['name'] = title.text
                     dic['id'] = id
