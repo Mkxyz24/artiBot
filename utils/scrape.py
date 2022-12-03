@@ -52,7 +52,7 @@ def get_courses():
                      '96730', '76770', '75623', '83713', '96290',
                      '86207', '96593', '76055', '86208', '77802', '83405', '96739', '78302',
                      '98225','84856', '86209', '96727', '87271','97807']
-    spring22 = ['20829','25642','30492','22119','23711','32560','30603','35238']
+    spring22 = ['20829','25642','30492','22119','23711','32560','30603','35238','29399']
     # spring22 = ['29399']
     currentSem = spring22
     term_select_value = "2231"
@@ -133,6 +133,7 @@ def get_courses():
                 id = number.text.replace(' ','')
                 title = driver.find_element(By.CSS_SELECTOR,".class-results-cell.title")
                 seats = driver.find_element(By.CSS_SELECTOR,".class-results-cell.seats")
+                instructor = driver.find_element(By.CSS_SELECTOR,".class-results-cell.instructor")
                 icon_svg = seats.find_element(By.TAG_NAME,"svg")
                 data_icon = icon_svg.get_attribute("data-icon")
 
@@ -181,7 +182,7 @@ def get_courses():
                     # values = availableCol.find_elements(By.TAG_NAME, "span")
                     output = output + ' ' + id + " non reserved available" + "\n"
                     dic['title'] = course.text
-                    dic['name'] = title.text
+                    dic['name'] = title.text +"\n"+instructor.text
                     dic['id'] = id
                     #dic['available'] = int(values[0].text)
                     dic['total'] = totalseats
