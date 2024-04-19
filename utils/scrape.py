@@ -61,6 +61,7 @@ def get_courses():
     fall24 = ['87431','65688']
     currentSem = fall24
     term_select_value = "2247"
+    
     try:
         for c_num in currentSem:
             dic = {}
